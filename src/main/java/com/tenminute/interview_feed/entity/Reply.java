@@ -1,5 +1,6 @@
 package com.tenminute.interview_feed.entity;
 
+import com.tenminute.interview_feed.dto.ReplyRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
