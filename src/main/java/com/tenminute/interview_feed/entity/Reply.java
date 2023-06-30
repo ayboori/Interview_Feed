@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-
+//주석추가 테스트
 // 댓글 엔티티
 @Entity
 @Getter
