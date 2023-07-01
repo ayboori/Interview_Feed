@@ -31,8 +31,13 @@ public class User {
     @Column
     private String one_liner;
 
-    public User(UserRequestDto userRequestDto, String password ){
-        // dto 만드는 사람이 set 하기
-        //id, one_liner 뺴고 다 세팅~!
+    public User(UserRequestDto userRequestDto, String password){
+        this.username = userRequestDto.getUsername();
+        this.password = password;
+
+        this.email = userRequestDto.getEmail();
+        this.nickname = userRequestDto.getNickname();
+
+        this.one_liner = "자기소개를 입력해주세요.";
     }
 }
