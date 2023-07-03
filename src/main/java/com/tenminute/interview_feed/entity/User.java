@@ -18,14 +18,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     // 로그인 시 사용 (ayboori)
-    @Column (nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String password;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String email;
     // 게시글 작성 시 보일 닉네임 (부리)
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String nickname;
     // 한줄 소개
     @Column
@@ -40,4 +40,11 @@ public class User {
 
         this.one_liner = "자기소개를 입력해주세요.";
     }
+
+//    public User(UserRequestDto userRequestDto, String password ){
+//        // dto 만드는 사람이 set 하기
+//        //id, one_liner 뺴고 다 세팅~!
+
+
 }
+
