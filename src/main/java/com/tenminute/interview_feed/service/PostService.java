@@ -44,7 +44,7 @@ public class PostService {
     // 전체 게시글 조회
     @Transactional
     public List<PostResponseDto> getPosts() {
-        List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc();
+        List<Post> posts = postRepository.findAll();
         List<PostResponseDto> postResponseDto = new ArrayList<>();
 
         for(Post post : posts) {
@@ -107,7 +107,7 @@ public class PostService {
 
     public User checkToken(HttpServletRequest request) {
 
-        String token = jwtUtil.resolveToken(request);
+        String token = jwtUtil.getJwtFromHeader(request);
         Claims claims;
 
         if (token != null) {
