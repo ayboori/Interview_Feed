@@ -50,7 +50,7 @@ public class Post {
         // 게터로 알아서 바꾸세요..
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
-        this.nickname = requestDto.getContent();
+        this.nickname = user.getNickname();
         this.user = user;
     }
 

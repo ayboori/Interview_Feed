@@ -21,13 +21,13 @@ public class PostController {
     //
 
     // 게시글 작성
-    @PostMapping("/")
+    @PostMapping("")
     public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, HttpServletRequest request) {
         return postService.createPost(requestDto,request);
     }
 
     // 전체 게시글 조회
-    @GetMapping("/")
+    @GetMapping("")
     public List<PostResponseDto> getPosts() {
         return postService.getPosts();
     }
