@@ -1,6 +1,7 @@
 package com.tenminute.interview_feed.controller;
 
 
+import com.tenminute.interview_feed.dto.ApiResult;
 import com.tenminute.interview_feed.dto.PostRequestDto;
 import com.tenminute.interview_feed.dto.PostResponseDto;
 import com.tenminute.interview_feed.service.PostService;

@@ -5,7 +5,10 @@ import com.tenminute.interview_feed.dto.PostRequestDto;
 import com.tenminute.interview_feed.dto.PostResponseDto;
 import com.tenminute.interview_feed.entity.Post;
 import com.tenminute.interview_feed.entity.User;
+import com.tenminute.interview_feed.jwt.JwtUtil;
 import com.tenminute.interview_feed.repository.PostRepository;
+import com.tenminute.interview_feed.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
     // 게시글 작성
@@ -103,6 +107,23 @@ public class PostService {
 
     public User checkToken(HttpServletRequest request) {
 
-        String token = JwtUtil
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                // 토큰에서 사용자 정보 가져오기
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+
+            // 토큰에서 가져온 사용자 정보를 사용하여 DB 조회ㅏ
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+            );
+            return user;
+        }
+        return null;
     }
 }
