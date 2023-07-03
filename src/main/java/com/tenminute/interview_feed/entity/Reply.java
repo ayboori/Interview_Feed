@@ -43,9 +43,13 @@ public class Reply {
 
     // 수정, 삭제를 위해 User 받아와야 한다!
     public Reply(ReplyRequestDto replyRequestDto, Post post, User user) {
-        this.nickname = nickname;
-        this.content = content;
+        this.nickname = user.getNickname();
+        this.content = replyRequestDto.getContent();
         this.post = post;
         this.user = user;
+    }
+
+    public void update(ReplyRequestDto requestDto) {
+        this.content = requestDto.getContent();
     }
 }
