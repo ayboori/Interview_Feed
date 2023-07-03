@@ -49,12 +49,21 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Reply> replyList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post")
+    private List<TagPostTable> tagPostTableList = new ArrayList<>();
+
+
     public Post(PostRequestDto requestDto, User user) {
         // 게터로 알아서 바꾸세요..
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
-        this.nickname = requestDto.getContent();
+        this.nickname = user.getNickname();
         this.user = user;
+
+
+
+
+
     }
 
     public void update(PostRequestDto requestDto) {
