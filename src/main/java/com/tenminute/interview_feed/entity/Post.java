@@ -46,11 +46,16 @@ public class Post {
     @Column (nullable = false)
     private int like_count;
 
-    public Post(PostRequestDto postRequestDto, User user) {
+    public Post(PostRequestDto requestDto, User user) {
         // 게터로 알아서 바꾸세요..
-        this.title = title;
-        this.content = content;
-        this.nickname = nickname;
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.nickname = requestDto.getContent();
         this.user = user;
+    }
+
+    public void update(PostRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
     }
 }
