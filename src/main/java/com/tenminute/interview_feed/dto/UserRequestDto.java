@@ -24,7 +24,6 @@ public class UserRequestDto {
     @NotBlank
     private String nickname;
 
-
     // 권한
     // private boolean admin = false;
     // private String adminToken = "";
