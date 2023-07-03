@@ -36,7 +36,7 @@ public class Reply {
     // 외래 키로 받아오기
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    private Post post;    //todo 미리 양방향으로 맵핑을 하는 게 좋을지? 아니면 '이 댓글의 원글 가기'같은 기능이 도입될 때 추가하는 게 나을 지?
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
