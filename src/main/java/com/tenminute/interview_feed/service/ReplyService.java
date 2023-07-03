@@ -5,6 +5,7 @@ import com.tenminute.interview_feed.dto.ReplyResponseDto;
 import com.tenminute.interview_feed.entity.Post;
 import com.tenminute.interview_feed.entity.Reply;
 import com.tenminute.interview_feed.entity.User;
+import com.tenminute.interview_feed.repository.PostRepository;
 import com.tenminute.interview_feed.repository.ReplyRepository;
 import com.tenminute.interview_feed.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +42,6 @@ public class ReplyService {
         //만들어진 댓글을 리턴하는 형태
         return new ReplyResponseDto(saveReply);
     }
-
 
 
     @Transactional
@@ -95,7 +95,7 @@ public class ReplyService {
         return (UserDetails) principal;
     }
 
-    private User getUserFromPrincipal(){
+    private User getUserFromPrincipal() {
         return userRepository.findByUsername(getUserDetailsFromPrincipal().getUsername()).orElseThrow();
     }
-
+}
