@@ -31,11 +31,14 @@ public class User {
     @Column
     private String one_liner;
 
-    public User(String username, String password, String email, String nickname) {
-        this.username = username;
+    public User(UserRequestDto userRequestDto, String password){
+        this.username = userRequestDto.getUsername();
         this.password = password;
-        this.email = email;
-        this.nickname = nickname;
+
+        this.email = userRequestDto.getEmail();
+        this.nickname = userRequestDto.getNickname();
+
+        this.one_liner = "자기소개를 입력해주세요.";
     }
 
 //    public User(UserRequestDto userRequestDto, String password ){
