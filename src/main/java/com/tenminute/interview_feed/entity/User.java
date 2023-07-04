@@ -1,10 +1,13 @@
 package com.tenminute.interview_feed.entity;
 
+import com.tenminute.interview_feed.dto.PostRequestDto;
 import com.tenminute.interview_feed.dto.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 // 사용자 정보를 담은 엔티티
 
@@ -41,10 +44,24 @@ public class User {
         this.one_liner = "자기소개를 입력해주세요.";
     }
 
-//    public User(UserRequestDto userRequestDto, String password ){
-//        // dto 만드는 사람이 set 하기
-//        //id, one_liner 뺴고 다 세팅~!
 
+    // User 받기?
+    public User(UserRequestDto userRequestDto){
+        this.username = userRequestDto.getUsername();
+
+        this.email = userRequestDto.getEmail();
+        this.nickname = userRequestDto.getNickname();
+
+        this.one_liner = "자기소개를 입력해주세요.";
+    }
+
+    // 수정
+    public void update(UserRequestDto requestDto) {
+        // id를 어떻게 해야하나
+        this.username = requestDto.getUsername();
+        this.email = requestDto.getEmail(); // 이메일 수정...??
+        this.one_liner = requestDto.getOne_liner();
+    }
 
 }
 
