@@ -1,9 +1,11 @@
 package com.tenminute.interview_feed.dto;
 
 import com.tenminute.interview_feed.entity.Reply;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class ReplyResponseDto {
     private Long id;
     private String nickname;

@@ -5,9 +5,12 @@ import com.tenminute.interview_feed.dto.ReplyResponseDto;
 import com.tenminute.interview_feed.entity.Post;
 import com.tenminute.interview_feed.entity.Reply;
 import com.tenminute.interview_feed.entity.User;
+import com.tenminute.interview_feed.jwt.JwtUtil;
 import com.tenminute.interview_feed.repository.PostRepository;
 import com.tenminute.interview_feed.repository.ReplyRepository;
 import com.tenminute.interview_feed.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -19,21 +22,23 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
-    public ReplyService(ReplyRepository replyRepository, PostRepository postRepository, UserRepository userRepository) {
+    public ReplyService(ReplyRepository replyRepository, PostRepository postRepository, UserRepository userRepository, JwtUtil jwtUtil) {
         this.replyRepository = replyRepository;
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
-
-    public ReplyResponseDto createReply(Long id, ReplyRequestDto requestDto) {
+    public ReplyResponseDto createReply(Long id, ReplyRequestDto requestDto, HttpServletRequest httpServletRequest) {
 
         //게시글의 DB저장 유무 확인 및 가져오기
         Post post = findPost(id); // 매번 불러와야 하는 지??
 
         // RequestDto -> Entity
-        User user = getUserFromPrincipal();
+//        User user = getUserFromPrincipal(); //프린시플
+        User user = checkToken(httpServletRequest);
         Reply reply = new Reply(requestDto, post, user);
 
         // DB 저장
@@ -97,5 +102,32 @@ public class ReplyService {
 
     private User getUserFromPrincipal() {
         return userRepository.findByUsername(getUserDetailsFromPrincipal().getUsername()).orElseThrow();
+//        return userRepository.findByUsername(getUserDetailsFromPrincipal().getUsername()).orElseThrow();
     }
+
+
+    //todo 해당 메소드를 JwtUtil로 몰아넣는게 좋을지?
+    //todo User를 가져오는 방법으로 JWT가 아닌 Principal에서 가져오는 게 좋은지? 다른 좋은방법은 없는지?
+    public User checkToken(HttpServletRequest request) {
+
+        String token = jwtUtil.getJwtFromHeader(request);
+        Claims claims;
+
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                // 토큰에서 사용자 정보 가져오기
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+
+            // 토큰에서 가져온 사용자 정보를 사용하여 DB 조회ㅏ
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+            );
+            return user;
+        }
+        return null;
+    }
+
 }
