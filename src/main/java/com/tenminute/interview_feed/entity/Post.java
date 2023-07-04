@@ -59,12 +59,16 @@ public class Post {
         this.content = requestDto.getContent();
         this.nickname = user.getNickname();
         this.user = user;
-
-
-
-
-
     }
+
+    public Post(PostRequestDto requestDto, User user, List<TagPostTable> tagPostTableList) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.nickname = user.getNickname();
+        this.user = user;
+        this.tagPostTableList = tagPostTableList;
+    }
+
 
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
