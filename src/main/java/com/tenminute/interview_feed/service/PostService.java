@@ -6,6 +6,7 @@ import com.tenminute.interview_feed.dto.PostResponseDto;
 import com.tenminute.interview_feed.entity.Post;
 import com.tenminute.interview_feed.entity.User;
 import com.tenminute.interview_feed.jwt.JwtUtil;
+import com.tenminute.interview_feed.repository.HashtagRepository;
 import com.tenminute.interview_feed.repository.PostRepository;
 import com.tenminute.interview_feed.repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -23,6 +24,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final HashtagRepository hashtagRepository;
     private final JwtUtil jwtUtil;
 
     // 게시글 작성
@@ -31,15 +33,21 @@ public class PostService {
 
         // 토큰 체크 추가
         User user = checkToken(request);
-
         if(user == null) {
             throw new IllegalArgumentException("인증되지 않은 사용자입니다.");
         }
 
+        //request에서 받은 해시태그 리스트로 해시태그 생성. 기존에 있으면 가져오기
+//        List<TagPostTable> tagPostTableList = createTagPostTableList(requestDto);
+
+        //생성한, 태그테이블리스트와 함께 Post 생성
+//        Post post = new Post(requestDto, user, tagPostTableList);
         Post post = new Post(requestDto, user);
+
         postRepository.save(post);
         return new PostResponseDto(post);
     }
+
 
     // 전체 게시글 조회
     @Transactional
@@ -126,4 +134,19 @@ public class PostService {
         }
         return null;
     }
+
+
+//    private List<TagPostTable> createTagPostTableList(PostRequestDto requestDto) {
+//        List<TagPostTable> tagPostTableList = null;
+//        //requestDto에서 받은 해시태크리스트로 List<HashTag> 생성
+//        for (String name : requestDto.getHashtagList()) {
+//            Hashtag hashtag;
+//            //기존 해시태그가 있다면 기존거로 진행, 없으면 생성.
+//            hashtag = !hashtagRepository.existsByNameIgnoreCaseAllIgnoreCase(name)
+//                    ? new Hashtag(name) : hashtagRepository.findByNameIgnoreCase(name);
+//
+//            tagPostTableList.add(new TagPostTable(hashtag));
+//        }
+//        return tagPostTableList;
+//    }
 }

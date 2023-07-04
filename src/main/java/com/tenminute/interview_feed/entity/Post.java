@@ -2,16 +2,15 @@ package com.tenminute.interview_feed.entity;
 
 import com.tenminute.interview_feed.dto.PostRequestDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 // 게시글 엔티티
 
@@ -47,6 +46,14 @@ public class Post extends Timestamped{
     @Column (nullable = false)
     private int like_count;
 
+    //todo fetch List형은 아마 기본이 LAZY라 그냥 선언만해도 될까 싶어서 이렇게 해둠
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<Reply> replyList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<TagPostTable> tagPostTableList = new ArrayList<>();
+
+
     public Post(PostRequestDto requestDto, User user) {
         // 게터로 알아서 바꾸세요..
         this.title = requestDto.getTitle();
@@ -54,6 +61,15 @@ public class Post extends Timestamped{
         this.nickname = user.getNickname();
         this.user = user;
     }
+
+    public Post(PostRequestDto requestDto, User user, List<TagPostTable> tagPostTableList) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.nickname = user.getNickname();
+        this.user = user;
+        this.tagPostTableList = tagPostTableList;
+    }
+
 
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
