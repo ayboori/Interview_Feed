@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -33,10 +34,15 @@ public class Reply {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime created_at;
 
+    @LastModifiedDate
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime modified_at;
+
     // 외래 키로 받아오기
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    private Post post;    //todo 미리 양방향으로 맵핑을 하는 게 좋을지? 아니면 '이 댓글의 원글 가기'같은 기능이 도입될 때 추가하는 게 나을 지?
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
