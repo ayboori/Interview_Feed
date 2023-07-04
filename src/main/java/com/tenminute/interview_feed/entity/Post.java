@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Table(name = "post")
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Post {
+public class Post extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,11 +32,12 @@ public class Post {
     @Column (nullable = false)
     private String nickname;
 
+
     // 작성 시간 업데이트 되지 않게 하기!
-    @CreatedDate
-    @Column(updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime created_at;
+//    @CreatedDate
+//    @Column(updatable = false)
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private LocalDateTime created_at;
 
     // 외래키로 user_id 받아오기
     @ManyToOne(fetch = FetchType.LAZY)
