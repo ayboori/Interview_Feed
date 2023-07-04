@@ -40,26 +40,24 @@ public class MypageService {
 
     @Transactional
     public UserResponseDto updateMypage(Long id, UserRequestDto requestDto, User user) {
-        // 해당 메모가 DB에 존재하는지 확인
-
         if(user == null) {
-            throw new IllegalArgumentException("인증되지 않은 사용자입니다.");
+            throw new IllegalArgumentException("로그인을 먼저 해 주세요.");
         }
-
         // 변경할 값 이외에는 다 세팅해주기 ... 필요하면?
 
-        if (user.getId().equals(id)) { // 로그인 사용자 == 작성자
+        User user1 = userRepository.findById(id).orElseThrow(
+                ()-> new NullPointerException("해당 글이 존재하지 않습니다.")
+        ); // DB에 있는 user을 가져와서 그 값을 수정해야 한다!
+
+        if (user.getId() == id) { // 로그인 사용자 == 작성자
+
             // user 정보 수정
-            user.update(requestDto);
-            return new UserResponseDto(user); // 반환 객체에 변경 완료 객체 담아서 return
+            user1.update(requestDto);
+
+            return new UserResponseDto(user1); // 반환 객체에 변경 완료 객체 담아서 return
         } else {
             throw new IllegalArgumentException("수정 권한이 없는 사용자입니다.");
         }
     }
 
-    private User findUser(Long id) {
-        return userRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
-        );
-    }
 }
