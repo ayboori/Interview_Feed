@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class MypageService {
@@ -28,7 +27,6 @@ public class MypageService {
        if(user.getId() != id){ // 토근의 id =/= url로 받아온 id
            throw new IllegalArgumentException("로그인을 먼저 해 주세요");
        }
-
        return new UserResponseDto(user); // 반환 객체에 입력받은 user 객체 담아 리턴
     }
 

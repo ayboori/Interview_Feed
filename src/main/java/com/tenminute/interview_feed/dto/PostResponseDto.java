@@ -19,7 +19,7 @@ public class PostResponseDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.nickname = post.getNickname();
+        this.nickname = post.getUser().getNickname(); // User 닉네임 업데이트 반영되도록 하기
         this.created_at = post.getCreated_at();
         this.like_count = post.getLike_count();
     }

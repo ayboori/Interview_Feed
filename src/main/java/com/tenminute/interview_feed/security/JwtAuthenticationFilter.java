@@ -3,7 +3,6 @@ package com.tenminute.interview_feed.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tenminute.interview_feed.dto.LoginRequestDto;
-import com.tenminute.interview_feed.dto.StatusResponseDto;
 import com.tenminute.interview_feed.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +18,6 @@ import java.io.IOException;
 
 @Slf4j(topic = "로그인 및 JWT 생성")
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
     private final JwtUtil jwtUtil;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {

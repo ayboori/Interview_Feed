@@ -12,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDto {
-    private Long id; // 일련번호
     private String username; // 로그인 시 사용할 아이디
     private String password;
     private String email;
