@@ -54,9 +54,9 @@ public class ReplyService {
         // 해당 메모가 DB에 존재하는지 확인
         Reply reply = findReply(id);
 
-        String nickname = getUserDetailsFromPrincipal().getUsername();
+        String username = getUserDetailsFromPrincipal().getUsername();
 
-        if (nickname.equals(reply.getNickname())) { //done 인가는 이미 걸어뒀고, 유저네임이 같은지 확인.
+        if (username.equals(reply.getUser().getUsername())) { //done 인가는 이미 걸어뒀고, 유저네임이 같은지 확인.
 
             // Post 내용 수정
             reply.update(requestDto);
@@ -72,9 +72,9 @@ public class ReplyService {
 
         // Post 삭제
         //username확인
-        String nickname = getUserDetailsFromPrincipal().getUsername(); //why 토큰에서 가져오는 회원정보 username은 믿을만 한가??
+        String username = getUserDetailsFromPrincipal().getUsername();
 
-        if (nickname.equals(reply.getNickname())) {
+        if (username.equals(reply.getUser().getUsername())) {
             replyRepository.delete(reply);
             deleteResult = true;
         } else {
