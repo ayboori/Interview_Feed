@@ -48,10 +48,8 @@ public class User {
     // User 받기?
     public User(UserRequestDto userRequestDto){
         this.username = userRequestDto.getUsername();
-
         this.email = userRequestDto.getEmail();
         this.nickname = userRequestDto.getNickname();
-
         this.one_liner = "자기소개를 입력해주세요.";
     }
 
@@ -60,6 +58,7 @@ public class User {
         // id를 어떻게 해야하나
         this.username = requestDto.getUsername();
         this.email = requestDto.getEmail(); // 이메일 수정...??
+        this.nickname = requestDto.getNickname();
         this.one_liner = requestDto.getOne_liner();
     }
 

@@ -20,7 +20,7 @@ public class UserResponseDto {
 
     public UserResponseDto(User user){
         this.username = user.getUsername();
-        this.password = user.getPassword();
+//        this.password = user.getPassword();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
         this.one_liner = user.getOne_liner();

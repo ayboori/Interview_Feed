@@ -11,6 +11,7 @@ import com.tenminute.interview_feed.repository.UserRepository;
 import com.tenminute.interview_feed.security.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
@@ -37,48 +38,28 @@ public class MypageService {
        return new UserResponseDto(user); // 반환 객체에 입력받은 user 객체 담아 리턴
     }
 
-
+    @Transactional
     public UserResponseDto updateMypage(Long id, UserRequestDto requestDto, User user) {
+        // 해당 메모가 DB에 존재하는지 확인
 
         if(user == null) {
-            throw new IllegalArgumentException("로그인을 먼저 해 주세요.");
+            throw new IllegalArgumentException("인증되지 않은 사용자입니다.");
         }
 
         // 변경할 값 이외에는 다 세팅해주기 ... 필요하면?
 
-        if (user.getId() != id) { // 로그인 사용자 == 작성자
-            // RequestDto -> Entity
-
+        if (user.getId().equals(id)) { // 로그인 사용자 == 작성자
             // user 정보 수정
             user.update(requestDto);
-            userRepository.update(id, requestDto);
-
             return new UserResponseDto(user); // 반환 객체에 변경 완료 객체 담아서 return
         } else {
             throw new IllegalArgumentException("수정 권한이 없는 사용자입니다.");
         }
     }
 
-
-    // 토큰 유효 여부 확인을 위한 함수
-    public User checkToken(HttpServletRequest request){
-        String token = jwtUtil.getJwtFromHeader(request);
-        Claims claims;
-
-        if (token != null) {
-            if (jwtUtil.validateToken(token)) {
-                // 토큰에서 사용자 정보 가져오기
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token Error");
-            }
-
-            // 토큰에서 가져온 사용자 정보를 사용하여 DB 조회
-            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
-            );
-            return user;
-        }
-        return null;
+    private User findUser(Long id) {
+        return userRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
+        );
     }
 }
