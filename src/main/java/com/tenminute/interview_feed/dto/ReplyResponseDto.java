@@ -11,6 +11,7 @@ public class ReplyResponseDto {
     private String nickname;
     private String contents;
     private LocalDateTime created_at;
+    private LocalDateTime modified_at;
 
 
     public ReplyResponseDto(Reply reply) {
@@ -18,5 +19,6 @@ public class ReplyResponseDto {
         this.nickname = reply.getNickname();
         this.contents = reply.getContent();
         this.created_at = reply.getCreated_at();
+        this.modified_at = reply.getModified_at();
     }
 }

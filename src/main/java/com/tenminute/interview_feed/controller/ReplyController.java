@@ -2,10 +2,11 @@ package com.tenminute.interview_feed.controller;
 
 import com.tenminute.interview_feed.dto.ReplyRequestDto;
 import com.tenminute.interview_feed.dto.ReplyResponseDto;
+import com.tenminute.interview_feed.security.UserDetailsImpl;
 import com.tenminute.interview_feed.service.ReplyService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -20,8 +21,8 @@ public class ReplyController {
     }
 
     @PostMapping("/posts/{id}/reply") // 프론트에서 url요청을 어떻게 줄 수 있는지 감이 안와서 이 부분은 된다는 가정하에 진행했습니다.
-    public ReplyResponseDto createPost(@PathVariable Long id, @RequestBody ReplyRequestDto requestDto, HttpServletRequest httpServletRequest) {
-        return replyService.createReply(id, requestDto, httpServletRequest);
+    public ReplyResponseDto createPost(@PathVariable Long id, @RequestBody ReplyRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return replyService.createReply(id, requestDto, userDetails.getUser());
     }
 
 

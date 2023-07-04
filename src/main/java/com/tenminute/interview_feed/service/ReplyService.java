@@ -31,16 +31,12 @@ public class ReplyService {
         this.jwtUtil = jwtUtil;
     }
 
-    public ReplyResponseDto createReply(Long id, ReplyRequestDto requestDto, HttpServletRequest httpServletRequest) {
+    public ReplyResponseDto createReply(Long id, ReplyRequestDto requestDto, User user) {
 
         //게시글의 DB저장 유무 확인 및 가져오기
         Post post = findPost(id); // 매번 불러와야 하는 지??
 
-        // RequestDto -> Entity
-//        User user = getUserFromPrincipal(); //프린시플
-        User user = checkToken(httpServletRequest);
         Reply reply = new Reply(requestDto, post, user);
-
         // DB 저장
         Reply saveReply = replyRepository.save(reply);
 
