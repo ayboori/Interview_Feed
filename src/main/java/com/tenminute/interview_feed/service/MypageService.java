@@ -35,7 +35,7 @@ public class MypageService {
 
     // 토큰 유효 여부 확인을 위한 함수
     public User checkToken(HttpServletRequest request){
-        String token = jwtUtil.getTokenFromRequest(request);
+        String token = jwtUtil.getJwtFromHeader(request);
         Claims claims;
 
         if (token != null) {
