@@ -17,7 +17,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user/signup")
+    @PostMapping("/signup")
     public StatusResponseDto signup(@RequestBody UserRequestDto requestDto, HttpServletResponse res) {
         return userService.signup(requestDto, res);
     }
