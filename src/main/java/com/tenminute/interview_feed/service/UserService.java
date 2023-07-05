@@ -1,5 +1,6 @@
 package com.tenminute.interview_feed.service;
 
+import com.tenminute.interview_feed.dto.SignupRequestDto;
 import com.tenminute.interview_feed.dto.StatusResponseDto;
 import com.tenminute.interview_feed.dto.UserRequestDto;
 import com.tenminute.interview_feed.entity.User;
@@ -20,7 +21,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
 
-    public void signup(UserRequestDto requestDto) {
+    public void signup(SignupRequestDto requestDto) {
 
         // pw 변환
         String password = passwordEncoder.encode(requestDto.getPassword());

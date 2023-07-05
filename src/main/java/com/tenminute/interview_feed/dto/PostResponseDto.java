@@ -2,6 +2,7 @@ package com.tenminute.interview_feed.dto;
 
 import com.tenminute.interview_feed.entity.Post;
 import com.tenminute.interview_feed.entity.Reply;
+import com.tenminute.interview_feed.entity.TagPostTable;
 import com.tenminute.interview_feed.entity.Timestamped;
 import lombok.Getter;
 
@@ -19,6 +20,8 @@ public class PostResponseDto {
     private LocalDateTime modified_at;
     private int like_count;
     private List<ReplyResponseDto> replyResponseDtoList = new ArrayList<>();
+    private List<TagResponseDto> tagResponseDtoList = new ArrayList<>();
+
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
@@ -31,6 +34,10 @@ public class PostResponseDto {
 
         for (Reply reply : post.getReplyList()) {
             this.replyResponseDtoList.add(new ReplyResponseDto(reply));
+        }
+
+        for (TagPostTable tagPostTable : post.getTagPostTableList()) {
+            this.tagResponseDtoList.add(new TagResponseDto(tagPostTable.getTag().getName()));
         }
     }
 }
