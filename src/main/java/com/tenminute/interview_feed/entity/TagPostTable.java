@@ -27,4 +27,8 @@ public class TagPostTable {
         this.hashtag = hashtag;
         this.post = post;
     }
+
+    public TagPostTable(Hashtag hashtag) {
+        this.hashtag = hashtag;
+    }
 }

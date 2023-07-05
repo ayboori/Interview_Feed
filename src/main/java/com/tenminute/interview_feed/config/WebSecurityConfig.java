@@ -75,7 +75,7 @@ public class WebSecurityConfig {
 
         http.formLogin((formLogin) ->
                 formLogin
-                        .loginPage("/api/login-page").permitAll()
+                        .loginPage("/api/login-page").permitAll() // 필터 오류 나면 .disable() 해야할수도?
         );
 
         // 필터 관리
