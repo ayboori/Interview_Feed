@@ -19,22 +19,31 @@
 
     <form action="/api/signup" method="post">
         <div class="login-id-label">아이디</div>
-        <input type="text" name="username" id="username" placeholder="Username" class="login-input-box" onchange="check_username()">
+        <input type="text" name="username" id="username" placeholder="Username" class="login-input-box"
+               onchange="check_username()">
         <div class="login-check-label" id="check_regexp_username"><!--확인문구들어감--></div>
         <button type="button" class="confirm-button" onclick="confirm_username()">아이디 중복 확인</button>
 
         <div class="login-id-label">비밀번호</div>
-        <input type="password" name="password" id="pw1" class="login-input-box" onchange="check_password()">
+        <input type="password" name="password" id="pw1" placeholder="password" class="login-input-box"
+               onchange="check_password()">
         <div class="login-check-label" id="check_regexp_pw"><!--확인문구들어감--></div>
 
         <div class="login-id-label">비밀번호 확인</div>
-        <input type="password" id="pw2" class="login-input-box" onchange="check_password()">
+        <input type="password" id="pw2" placeholder="password check" class="login-input-box"
+               onchange="check_password()">
         <div class="login-check-label" id="check_accord_pw"><!--확인문구들어감--></div>
 
         <div class="login-id-label">이메일</div>
-        <input type="text" id="email" name="email" placeholder="E-mail" class="login-input-box" onchange="check_email()">
+        <input type="text" id="email" name="email" placeholder="E-mail" class="login-input-box"
+               onchange="check_email()">
         <div class="login-check-label" id="check_regexp_email"><!--확인문구들어감--></div>
-        <button type="button" class="confirm-button" onclick="confirm_email()">이메일 검증하기</button>
+        <button type="button" class="confirm-button" onclick="confirm_email()">이메일 인증</button>
+
+        <div style="display:none" id="confirm_email_box">
+            <input type="email" id="confirm_email_code" placeholder="인증 코드 입력" class="login-input-box"><br>
+            <button type="button" class="confirm-button" onclick="confirm_authcode()">인증 코드 확인</button>
+        </div>
 
         <div class="login-id-label">닉네임</div>
         <input type="text" name="nickname" placeholder="nickname" class="login-input-box">

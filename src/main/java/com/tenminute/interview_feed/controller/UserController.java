@@ -60,16 +60,11 @@ public class UserController {
         return new UserInfoDto(username);
     }
 
-    // username 체크
-    @PostMapping("/signup/check-username/{username}")
+    // username 중복 체크
+    @PostMapping("/signup/confirm-username/{username}")
     @ResponseBody
     public void checkUsername(@PathVariable("username") String username) {
         userService.checkUsername(username);
     }
-    // email 체크
-    @GetMapping("/signup/check-email")
-    @ResponseBody
-    public void checkEmail(String email) {
-        userService.checkEmail(email);
-    }
+
 }
