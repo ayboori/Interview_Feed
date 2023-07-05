@@ -1,25 +1,62 @@
 package com.tenminute.interview_feed.controller;
 
 import com.tenminute.interview_feed.dto.StatusResponseDto;
+import com.tenminute.interview_feed.dto.UserInfoDto;
 import com.tenminute.interview_feed.dto.UserRequestDto;
+import com.tenminute.interview_feed.security.UserDetailsImpl;
 import com.tenminute.interview_feed.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j // 로깅에 사용
-@RestController
+@Controller
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signup")
-    public StatusResponseDto signup(@RequestBody UserRequestDto requestDto, HttpServletResponse res) {
-        return userService.signup(requestDto, res);
+    @GetMapping("/login-page")
+    public String loginPage() {
+        return "login";
+    }
+    @GetMapping("/signup-page")
+    public String signupPage() {
+        return "signup";
     }
 
+    @PostMapping("/signup")
+    public String signup(@Valid UserRequestDto requestDto, BindingResult bindingResult) {
+
+        // Validation 예외처리
+        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        if(fieldErrors.size() > 0) {
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
+            }
+            return "redirect:/api/user/signup";
+        }
+
+        userService.signup(requestDto);
+
+        return "redirect:/api/user/login-page";
+    }
+
+    // 회원 관련 정보 받기
+    @GetMapping("/user-info")
+    @ResponseBody
+    public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String username = userDetails.getUser().getUsername();
+
+        return new UserInfoDto(username);
+    }
 }
