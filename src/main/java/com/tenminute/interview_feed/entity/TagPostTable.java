@@ -16,19 +16,22 @@ public class TagPostTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     // 외래 키로 받아오기
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hashtag_id", nullable = false)
-    private Hashtag hashtag;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "tag_id", nullable = false)
+    private Tag tag;
+    @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    public TagPostTable(Hashtag hashtag, Post post) {
-        this.hashtag = hashtag;
+    public TagPostTable(Tag tag, Post post) {
+        this.tag = tag;
+        tag.getTagPostTableList().add(this);
         this.post = post;
+        post.getTagPostTableList().add(this);
     }
 
-    public TagPostTable(Hashtag hashtag) {
-        this.hashtag = hashtag;
+    public TagPostTable(Tag tag) {
+        this.tag = tag;
+        tag.getTagPostTableList().add(this);
     }
 }
