@@ -14,9 +14,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "hashtag")
+@Table(name = "tag")
 @NoArgsConstructor
-public class Hashtag {
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,10 +24,10 @@ public class Hashtag {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "hashtag")
+    @OneToMany(mappedBy = "tag")
     private List<TagPostTable> tagPostTableList = new ArrayList<>();
 
-    public Hashtag(String name){
+    public Tag(String name){
         this.name = name;
     }
 }
