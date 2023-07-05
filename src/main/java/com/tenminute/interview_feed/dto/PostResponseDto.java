@@ -1,6 +1,7 @@
 package com.tenminute.interview_feed.dto;
 
 import com.tenminute.interview_feed.entity.Post;
+import com.tenminute.interview_feed.entity.Reply;
 import com.tenminute.interview_feed.entity.Timestamped;
 import lombok.Getter;
 

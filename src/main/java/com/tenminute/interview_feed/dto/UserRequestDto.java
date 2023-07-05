@@ -1,5 +1,6 @@
 package com.tenminute.interview_feed.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -23,7 +24,7 @@ public class UserRequestDto {
 
     @NotBlank
     private String nickname;
-
+    private String one_liner;
 
     // 권한
     // private boolean admin = false;

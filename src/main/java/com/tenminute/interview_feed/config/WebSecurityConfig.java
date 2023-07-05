@@ -74,8 +74,8 @@ public class WebSecurityConfig {
         );
 
         http.formLogin((formLogin) ->
-                formLogin
-                        .loginPage("/api/user/login").permitAll()
+                formLogin.disable() // 프론트 구현 안 할 거니까 우선 이대로!
+//                        .loginPage("/api/user/login").permitAll()
         );
 
         // 필터 관리

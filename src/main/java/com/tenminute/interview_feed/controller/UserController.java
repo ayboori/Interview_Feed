@@ -21,5 +21,4 @@ public class UserController {
     public StatusResponseDto signup(@RequestBody UserRequestDto requestDto, HttpServletResponse res) {
         return userService.signup(requestDto, res);
     }
-
 }
