@@ -17,9 +17,6 @@
 <div id="login-form">
   <div id="login-title">Log in Interview Feed</div>
   <br>
-  <button id="login-id-btn" onclick="location.href='/api/signup'">
-    회원 가입하기
-  </button>
   <div>
     <div class="login-id-label">아이디</div>
     <input type="text" name="username" id="username" class="login-input-box">
@@ -28,6 +25,10 @@
     <input type="password" name="password" id="password" class="login-input-box">
 
     <button id="login-id-submit" onclick="onLogin()">로그인</button>
+
+    <button id="login-id-btn" onclick="location.href='/api/signup-page'">
+      회원 가입하기
+    </button>
   </div>
   <div id="login-failed" style="display:none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
 </div>

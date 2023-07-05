@@ -9,11 +9,25 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <meta charset="UTF-8">
   <title>회원가입 페이지</title>
-  <script>
+  <script type="text/javascript">
+    function check_password() {
+      var p1 = document.getElementById('pw1').value;
+      var p2 = document.getElementById('pw2').value;
+      if( p1 != p2 ) {
+        document.getElementById('check').innerHTML='비밀번호가 일치하지 않습니다.';
+        document.getElementById('check').style.color='red';
+        return false;
+      } else{
+        document.getElementById('check').innerHTML='비밀번호가 일치합니다.'
+        document.getElementById('check').style.color='blue';
+        return true;
+      }
+
+    }
   </script>
 </head>
 <body>
-<div id="login-form">
+<div id="signup-form">
   <div id="login-title">Sign up Interview Feed</div>
 
   <form action="/api/signup" method="post">
@@ -21,7 +35,11 @@
     <input type="text" name="username" placeholder="Username" class="login-input-box">
 
     <div class="login-id-label">비밀번호</div>
-    <input type="password" name="password" class="login-input-box">
+    <input type="password" name="password" id="pw1" class="login-input-box" onchange="check_password()">
+
+    <div class="login-id-label">비밀번호 확인</div>
+    <input type="password" name="password" id="pw2" class="login-input-box" onchange="check_password()">
+    <div class="login-check-label" id="check"><!--확인문구들어감--></div>
 
     <div class="login-id-label">이메일</div>
     <input type="text" name="email" placeholder="E-mail" class="login-input-box">
