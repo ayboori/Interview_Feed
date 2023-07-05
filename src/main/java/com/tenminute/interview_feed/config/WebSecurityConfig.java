@@ -67,6 +67,7 @@ public class WebSecurityConfig {
                         // resources 접근 허용 설정
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         // "/api/"로 시작하는 요청 모두 접근 허가
+                        .requestMatchers("/").permitAll() // 메인 페이지 요청 허가
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
                         // 그 외 모든 요청 인증 처리
