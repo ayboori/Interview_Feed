@@ -1,5 +1,6 @@
 package com.tenminute.interview_feed.controller;
 
+import com.tenminute.interview_feed.dto.SignupRequestDto;
 import com.tenminute.interview_feed.dto.StatusResponseDto;
 import com.tenminute.interview_feed.dto.UserInfoDto;
 import com.tenminute.interview_feed.dto.UserRequestDto;
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid UserRequestDto requestDto, BindingResult bindingResult) {
+    public String signup(@Valid SignupRequestDto requestDto, BindingResult bindingResult) {
 
         // Validation 예외처리
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
