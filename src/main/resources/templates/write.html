@@ -5,7 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판 글쓰기</title>
-    <link href="../static/css/write.css" rel="stylesheet" type="text/css">
+    <link href="/css/write.css" rel="stylesheet" type="text/css">
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
 </head>
 <body>
 <header>
@@ -25,49 +30,56 @@
 </nav>
 
 <main>
-    <form class="write" onsubmit="createPost(event)">
-        <input type="text" id="titleInput" placeholder="제목을 입력해주세요." required>
-        <hr>
-        <input type="text" id="contentInput" placeholder="내용을 입력해주세요." class="text" required>
-        <div class="button">
-            <button type="submit">글쓰기</button>
-            <button type="reset">취소</button>
-        </div>
-    </form>
+    <input type="text" id="titleInput" placeholder="제목을 입력해주세요." required>
+    <hr>
+    <input type="text" id="contentInput" placeholder="내용을 입력해주세요." class="text" required>
+    <div class="button">
+        <button type="submit" onclick="createPost()">글쓰기</button>
+        <button type="reset">취소</button>
+    </div>
+
 
     <script>
-        function createPost(event) {
-            event.preventDefault();
+        $(document).ready(function () {
+            const auth = getToken();
+
+            if (auth !== undefined && auth !== '') {
+                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                    jqXHR.setRequestHeader('Authorization', auth);
+                });
+            } else {
+                window.location.href = host + '/api/user/login-page';
+                return;
+            }
+        })
+
+        function createPost() {
+
+            // event.preventDefault();
 
             var title = document.getElementById('titleInput').value;
             var content = document.getElementById('contentInput').value;
 
-            var data = {
-                title: title,
-                content: content
-            };
+            $.ajax({
+                type: "POST",
+                url: `/api/post`,
+                contentType: "application/json",
+                data: JSON.stringify({title: title, content: content}),
+            }).done(function () {
+                alert("작성 완료")
+            }).fail(function () {
+                alert("작성 실패")
+            });
+        }
 
-            // 로컬 스토리지에서 토큰 값을 가져온다
-            const token = localStorage.getItem('token');
+        function getToken() {
+            let auth = Cookies.get('Authorization');
 
-            // AJAX 요청을 보낼 때 헤더에 토큰 값을 추가한다
-            fetch('/api/post', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({title: '제목', content: '내용'})
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // 처리 결과에 따른 동작 수행
-                    console.log(data);
-                })
-                .catch(error => {
-                    // 에러 처리
-                    console.error(error);
-                });
+            if (auth === undefined) {
+                return '';
+            }
+
+            return auth;
         }
     </script>
 </main>
