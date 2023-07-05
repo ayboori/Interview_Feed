@@ -21,8 +21,8 @@ public class MypageController {
     @GetMapping("/mypage") // url 형식 : /mypage?id=3
     // ? 뒤에 있는 값은 parameter 값이라서 @RequestParam Long id로 사용
     // 주소창의 id + 헤더에서 가져올 토큰 값
-    public UserResponseDto showMypage(@RequestParam Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return mypageService.showMypage(id,userDetails.getUser());
+    public UserResponseDto showMypage(@RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return mypageService.showMypage(id, userDetails.getUser());
     }
 
     // mypage 편집하기
@@ -33,8 +33,23 @@ public class MypageController {
     // HttpServletRequest : 토큰 받아옴
     @PutMapping("/mypage") // url 형식 : /mypage?id=3
     public UserResponseDto updateMypage(@RequestParam Long id, @RequestBody UserRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return mypageService.updateMypage(id, requestDto,userDetails.getUser());
+//        if (requestDto.getPassword() != null){ // password 값이 들어오면
+//            redirectToPassword();
+//        }
+        return mypageService.updateMypage(id, requestDto, userDetails.getUser());
     }
 
+    // 수정할 정보에 password 포함되어 있을 시
+    // 비밀번호 동일한지만 확인! >> 수정은 updateMypage에서 이어서 수행하게 하고 싶음
 
+    // 리다이렉트는 프론트에서 해야할 것 같다고 답변을 받았다!
+    @PutMapping("/mypage/passwordcheck")
+    public String passwordCheck(@RequestBody UserRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return  mypageService.passwordCheck(requestDto, userDetails.getUser());
+    }
+
+//    // 리다이렉트를 위한 함수
+//    public String redirectToPassword() {
+//        return "redirect:/mypage/passwordcheck";
+//    }
 }

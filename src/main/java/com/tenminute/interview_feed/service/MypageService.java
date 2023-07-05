@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MypageService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     public UserResponseDto showMypage(Long id, User user){
 
@@ -43,14 +45,12 @@ public class MypageService {
         if(user == null) {
             throw new IllegalArgumentException("로그인을 먼저 해 주세요.");
         }
-        // 변경할 값 이외에는 다 세팅해주기 ... 필요하면?
 
         User user1 = userRepository.findById(id).orElseThrow(
                 ()-> new NullPointerException("해당 글이 존재하지 않습니다.")
         ); // DB에 있는 user을 가져와서 그 값을 수정해야 한다!
 
         if (user.getId() == id) { // 로그인 사용자 == 작성자
-
             // user 정보 수정
             user1.update(requestDto);
 
@@ -60,4 +60,15 @@ public class MypageService {
         }
     }
 
+    @Transactional
+    public String passwordCheck(UserRequestDto requestDto,User user) {
+        String password = requestDto.getPassword(); // 요청 본문의 password 받아옴
+
+        if(passwordEncoder.matches(password, user.getPassword())) {
+            // 비밀번호 변경은 다시 updateMypage로 가서 마저 하도록 할 예정
+            return "비밀번호가 일치합니다";
+        }else {
+            throw new IllegalArgumentException("비밀번호가 다릅니다.");
+        }
+    }
 }
