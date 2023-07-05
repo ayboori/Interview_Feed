@@ -5,7 +5,6 @@ import com.tenminute.interview_feed.dto.UserRequestDto;
 import com.tenminute.interview_feed.entity.User;
 import com.tenminute.interview_feed.jwt.JwtUtil;
 import com.tenminute.interview_feed.repository.UserRepository;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
 
-    public StatusResponseDto signup(UserRequestDto requestDto, HttpServletResponse res) {
+    public void signup(UserRequestDto requestDto) {
 
         // pw 변환
         String password = passwordEncoder.encode(requestDto.getPassword());
@@ -42,11 +41,5 @@ public class UserService {
 
         // 사용자 DB에 등록
         userRepository.save(new User(requestDto, password));
-
-        // Entity -> ResponseDto로 변환 후 반환
-        // 회원가입 성공 메세지, statusCode 전달
-        StatusResponseDto statusResponseDto = new StatusResponseDto("회원가입 성공", res.getStatus());
-
-        return statusResponseDto;
     }
 }
