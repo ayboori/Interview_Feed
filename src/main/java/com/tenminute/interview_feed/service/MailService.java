@@ -42,7 +42,7 @@ public class MailService {
         message.setSubject(subject); // 제목 설정
         message.setFrom(setFrom); // 보내는 이메일 설정
         message.setText(setContext(authcode), "utf-8", "html");
-        
+
         return message;
     }
 
@@ -53,7 +53,7 @@ public class MailService {
         MimeMessage emailForm = createEmailForm(toEmail);
         // 실제 메일 전송
         emailSender.send(emailForm);
-        
+
         return authcode; // 인증코드 반환
     }
 

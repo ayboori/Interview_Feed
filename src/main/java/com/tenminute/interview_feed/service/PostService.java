@@ -4,10 +4,13 @@ package com.tenminute.interview_feed.service;
 import com.tenminute.interview_feed.dto.PostRequestDto;
 import com.tenminute.interview_feed.dto.PostResponseDto;
 import com.tenminute.interview_feed.entity.Post;
+import com.tenminute.interview_feed.entity.Tag;
+import com.tenminute.interview_feed.entity.TagPostTable;
 import com.tenminute.interview_feed.entity.User;
 import com.tenminute.interview_feed.jwt.JwtUtil;
-import com.tenminute.interview_feed.repository.HashtagRepository;
 import com.tenminute.interview_feed.repository.PostRepository;
+import com.tenminute.interview_feed.repository.TagPostTableRepository;
+import com.tenminute.interview_feed.repository.TagRepository;
 import com.tenminute.interview_feed.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,30 +25,50 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService {
 
-    private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final HashtagRepository hashtagRepository;
+    private final PostRepository postRepository;
+    private final TagRepository tagRepository;
+    private final TagPostTableRepository tagPostTableRepository;
     private final JwtUtil jwtUtil;
 
     // 게시글 작성
-    @Transactional
     public PostResponseDto createPost(PostRequestDto requestDto, HttpServletRequest request) {
-
         // 토큰 체크 추가
         User user = checkToken(request);
         if(user == null) {
             throw new IllegalArgumentException("인증되지 않은 사용자입니다.");
         }
 
-        //request에서 받은 해시태그 리스트로 해시태그 생성. 기존에 있으면 가져오기
-//        List<TagPostTable> tagPostTableList = createTagPostTableList(requestDto);
-
-        //생성한, 태그테이블리스트와 함께 Post 생성
-//        Post post = new Post(requestDto, user, tagPostTableList);
+        //Post 객체 만들기 (Tag나 TagPostTable없이)
         Post post = new Post(requestDto, user);
-
+        //List<Tag> 콜렉션 만들기
+        List<Tag> tagList = createTagListFromRequest(requestDto);
+        //Post 객체 DB에 저장
         postRepository.save(post);
+        //TagPostTable 콜렉션 만들고 각 TagPostTable 객체들 DB에 저장. 생성시 연관관계 설정 (Tag, Post넣어주기)
+        List<TagPostTable> tagPostTableList= createTagPostTableList(post, tagList);
+        //TagPostTable (외래키의 주인) 마지막에 DB에 저장
+        for (TagPostTable tagPostTable : tagPostTableList) {
+            tagPostTableRepository.save(tagPostTable);
+        }
         return new PostResponseDto(post);
+    }
+
+    private List<Tag> createTagListFromRequest(PostRequestDto requestDto) {
+        List<Tag> tagList = new ArrayList<>();
+        for (String tagName : requestDto.getTagList()) {
+                Tag tag=null;
+                //기존 해시태그가 있다면 기존거로 진행, 없으면 생성.
+                if(!tagRepository.existsByNameIgnoreCaseAllIgnoreCase(tagName)){
+                    tag = new Tag(tagName);
+                    //DB에 tag 저장
+                    tagRepository.save(tag);
+                } else {
+                    tag = tagRepository.findByNameIgnoreCase(tagName);
+                }
+                tagList.add(tag);
+        }
+        return tagList;
     }
 
 
@@ -136,17 +159,13 @@ public class PostService {
     }
 
 
-//    private List<TagPostTable> createTagPostTableList(PostRequestDto requestDto) {
-//        List<TagPostTable> tagPostTableList = null;
-//        //requestDto에서 받은 해시태크리스트로 List<HashTag> 생성
-//        for (String name : requestDto.getHashtagList()) {
-//            Hashtag hashtag;
-//            //기존 해시태그가 있다면 기존거로 진행, 없으면 생성.
-//            hashtag = !hashtagRepository.existsByNameIgnoreCaseAllIgnoreCase(name)
-//                    ? new Hashtag(name) : hashtagRepository.findByNameIgnoreCase(name);
-//
-//            tagPostTableList.add(new TagPostTable(hashtag));
-//        }
-//        return tagPostTableList;
-//    }
+    private List<TagPostTable> createTagPostTableList(Post post, List<Tag> tagList)  {
+        List<TagPostTable> tagPostTableList = new ArrayList<>();
+        for (Tag tag : tagList) {
+            TagPostTable tagPostTable = new TagPostTable(tag, post);
+            TagPostTable saveTagPostTable = tagPostTableRepository.save(tagPostTable);
+            tagPostTableList.add(saveTagPostTable);
+        }
+        return tagPostTableList;
+    }
 }

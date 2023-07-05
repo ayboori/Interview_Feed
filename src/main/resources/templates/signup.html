@@ -1,36 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link rel="stylesheet" type="text/css" href="/css/style.css">
-  <meta charset="UTF-8">
-  <title>회원가입 페이지</title>
-  <script>
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta charset="UTF-8">
+    <title>회원가입 페이지</title>
+    <script type="text/javascript">
+        // 비밀번호 정규식
+        let regexp_pw = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{8,15}$')
+
+        // 이메일 정규식
+        let regexp_email = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$')
+
+        function check_password() { // 비밀번호 일치 및 정규식 체크
+            var p1 = document.getElementById('pw1').value;
+            var p2 = document.getElementById('pw2').value;
+
+            if (!regexp_pw.test(p1)) {
+                document.getElementById('check_regexp_pw').innerHTML = '8~15자 영문 대소문자, 숫자, 특수문자(!@#$%^*+=-)를 사용하세요.';
+                document.getElementById('check_regexp_pw').style.color = 'red';
+            } else {
+                document.getElementById('check_regexp_pw').innerHTML = '사용가능한 비밀번호 입니다.';
+                document.getElementById('check_regexp_pw').style.color = 'blue';
+            }
+
+            if (p1 != p2) {
+                document.getElementById('check_accord_pw').innerHTML = '비밀번호가 일치하지 않습니다.';
+                document.getElementById('check_accord_pw').style.color = 'red';
+            } else {
+                document.getElementById('check_accord_pw').innerHTML = '비밀번호가 일치합니다.'
+                document.getElementById('check_accord_pw').style.color = 'blue';
+            }
+        }
+    </script>
 </head>
 <body>
-<div id="login-form">
-  <div id="login-title">Sign up Interview Feed</div>
+<div id="signup-form">
+    <div id="login-title">Sign up Interview Feed</div>
 
-  <form action="/api/signup" method="post">
-    <div class="login-id-label">아이디</div>
-    <input type="text" name="username" placeholder="Username" class="login-input-box">
+    <form action="/api/signup" method="post">
+        <div class="login-id-label">아이디</div>
+        <input type="text" name="username" placeholder="Username" class="login-input-box">
 
-    <div class="login-id-label">비밀번호</div>
-    <input type="password" name="password" class="login-input-box">
+        <div class="login-id-label">비밀번호</div>
+        <input type="password" name="password" id="pw1" class="login-input-box" onchange="check_password()">
+        <div class="login-check-label" id="check_regexp_pw"><!--확인문구들어감--></div>
 
-    <div class="login-id-label">이메일</div>
-    <input type="text" name="email" placeholder="E-mail" class="login-input-box">
+        <div class="login-id-label">비밀번호 확인</div>
+        <input type="password" id="pw2" class="login-input-box" onchange="check_password()">
+        <div class="login-check-label" id="check_accord_pw"><!--확인문구들어감--></div>
 
-    <div class="login-id-label">닉네임</div>
-    <input type="text" name="nickname" placeholder="nickname" class="login-input-box">
+        <div class="login-id-label">이메일</div>
+        <input type="text" name="email" placeholder="E-mail" class="login-input-box">
+        <div class="login-check-label" id="check_regexp_email"><!--확인문구들어감--></div>
 
-    <button id="login-id-submit">회원 가입</button>
-  </form>
+        <div class="login-id-label">닉네임</div>
+        <input type="text" name="nickname" placeholder="nickname" class="login-input-box">
+
+        <button id="login-id-submit">회원 가입</button>
+    </form>
 </div>
 </body>
 </html>
