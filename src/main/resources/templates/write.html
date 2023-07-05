@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 글쓰기</title>
+    <link href="../static/css/write.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header>
+    <div class="homebox">
+        <div>
+            <a href="index.html" class="logo"></a>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <div class="menubox">
+        <ul>
+            <li><a href="login.html">메인화면</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <form class="write" onsubmit="createPost(event)">
+        <input type="text" id="titleInput" placeholder="제목을 입력해주세요." required>
+        <hr>
+        <input type="text" id="contentInput" placeholder="내용을 입력해주세요." class="text" required>
+        <div class="button">
+            <button type="submit">글쓰기</button>
+            <button type="reset">취소</button>
+        </div>
+    </form>
+
+    <script>
+        function createPost(event) {
+            event.preventDefault();
+
+            var title = document.getElementById('titleInput').value;
+            var content = document.getElementById('contentInput').value;
+
+            var data = {
+                title: title,
+                content: content
+            };
+
+            // 로컬 스토리지에서 토큰 값을 가져온다
+            const token = localStorage.getItem('token');
+
+            // AJAX 요청을 보낼 때 헤더에 토큰 값을 추가한다
+            fetch('/api/post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({title: '제목', content: '내용'})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 처리 결과에 따른 동작 수행
+                    console.log(data);
+                })
+                .catch(error => {
+                    // 에러 처리
+                    console.error(error);
+                });
+        }
+    </script>
+</main>
+</body>
+</html>
