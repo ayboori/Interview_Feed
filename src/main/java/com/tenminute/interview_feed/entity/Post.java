@@ -60,16 +60,8 @@ public class Post extends Timestamped{
         this.content = requestDto.getContent();
         this.nickname = user.getNickname();
         this.user = user;
+        this.like_count = 0;
     }
-
-    public Post(PostRequestDto requestDto, User user, List<TagPostTable> tagPostTableList) {
-        this.title = requestDto.getTitle();
-        this.content = requestDto.getContent();
-        this.nickname = user.getNickname();
-        this.user = user;
-        this.tagPostTableList = tagPostTableList;
-    }
-
 
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
