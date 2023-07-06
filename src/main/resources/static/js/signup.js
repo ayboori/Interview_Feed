@@ -1,7 +1,7 @@
 function check_username() {
     var username = document.getElementById('username').value;
 
-    // 이메일 정규식
+    // username 정규식
     let regexp_username = new RegExp('^(?=.*[a-z0-9]).{4,10}$')
 
     if (!regexp_username.test(username)) {
@@ -26,7 +26,7 @@ function confirm_username() {
     $.ajax({
         type: 'POST',
         url: '/api/signup/confirm-username/' + encodeURIComponent(username),
-        contentType: "application/json",
+        // contentType: "application/json",
         // data: JSON.stringify(username)
     }).done(function (data, textStatus, xhr) {
         if (data !== '') {
@@ -51,7 +51,7 @@ function check_password() { // 비밀번호 일치 및 정규식 체크
         document.getElementById('check_regexp_pw').innerHTML = '8~15자 영문 대문자(A~Z), 소문자(a~z), 숫자(0~9), 특수문자(!@#$%^*+=-)를 사용하세요.';
         document.getElementById('check_regexp_pw').style.color = 'red';
         return false;
-    } else {
+    } else { // 정규식 검사 통과
         document.getElementById('check_regexp_pw').innerHTML = '사용 가능한 비밀번호 입니다.';
         document.getElementById('check_regexp_pw').style.color = 'blue';
 
