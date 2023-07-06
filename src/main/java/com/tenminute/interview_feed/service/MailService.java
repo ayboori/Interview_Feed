@@ -22,7 +22,15 @@ public class MailService {
     // 인증 코드 생성
     public String createCode() {
 
-        return "test123";
+        StringBuffer str = new StringBuffer("");
+
+        // 랜덤 숫자 생성
+        for (int i = 0; i < 6; i++) {
+            int random = (int) (Math.random() * 10);
+            str.append(random);
+        }
+
+        return str.toString();
     }
 
     // 메일 양식 생성
