@@ -26,7 +26,7 @@ function confirm_username() {
     $.ajax({
         type: 'POST',
         url: '/api/signup/confirm-username/' + encodeURIComponent(username),
-        // contentType: "application/json",
+        contentType: "application/json",
         // data: JSON.stringify(username)
     }).done(function (data, textStatus, xhr) {
         if (data !== '') {
