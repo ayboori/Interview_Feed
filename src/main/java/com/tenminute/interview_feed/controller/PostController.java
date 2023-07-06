@@ -28,7 +28,11 @@ public class PostController {
 
     @PostMapping("/posts/tag")
     public List<PostResponseDto> getPostsByTags(@RequestBody List<String> strings){
-        return postService.getPostsByTags(strings);
+        if(strings.size()>1) {
+            return postService.getPostsByMultiTags(strings);
+        } else {
+            return postService.getPostsBySingleTag(strings);
+        }
     }
 
     // 게시글 작성

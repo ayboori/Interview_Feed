@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findAllByTagPostTableList_Tag_NameInOrderByCreatedAtDesc(List<String> names);
+    List<Post> findAllByTagPostTableList_Tag_NameOrderByCreatedAtDesc(String names);
     List<Post> findAllByOrderByCreatedAtDesc();
 }
