@@ -14,7 +14,30 @@
         $(document).ready(function () {
             const auth = getToken();
 
-            // 헤더에서 요청 가져오기
+            // post 요청 처리 깔짝대보고 있었으나 구현 아직 못함
+            // // POST 요청 처리
+            // $('#myForm').on('submit', function(event) {
+            //     event.preventDefault(); // 폼 기본 동작 중단
+            //
+            //     const inputData = $('#inputData').val(); // 입력 데이터 가져오기
+            //
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: '/api/user/my-page',
+            //         data: JSON.stringify({ data: inputData }),
+            //         contentType: 'application/json',
+            //         success: function(response) {
+            //             console.log('POST 요청 성공:', response);
+            //             // 여기에서 POST 요청에 대한 응답 처리
+            //         },
+            //         error: function(jqXHR, textStatus, errorThrown) {
+            //             console.error('POST 요청 실패:', errorThrown);
+            //             // 여기에서 POST 요청 실패 처리
+            //         }
+            //     });
+            // });
+
+            // GET 요청 처리
             if (auth !== undefined && auth !== '') {
                 $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
                     jqXHR.setRequestHeader('Authorization', auth);
@@ -22,21 +45,24 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: `/api/user/my-page`,
+                    url: `/api/user/my-page`, // 값 읽어오기를 수행할 controller
                     contentType: 'application/json',
                 })
                     .done(function (res) {
+                        // res (요청 객체)의 값 읽어오기
                         const username = res.username;
                         const nickname = res.nickname;
                         const email = res.email;
                         const one_liner = res.one_liner;
 
+                        // user 없는 상태면 로그인으로 보내버리기
                         if (!username) {
                             window.location.href = '/api/login-page';
                             return;
                         }
                         console.log(res);
 
+                        // html에 값 세팅하기
                         $('#username').text(username);
                         $('#nickname').text(nickname);
                         $('#email').text(email);
@@ -48,10 +74,11 @@
                     });
 
             } else {
-                // window.location.href = host + '/api/login-page';
+                window.location.href = host + '/api/login-page';
                 return;
             }
         })
+        // 쿠키에서 인증 토큰 가져오기
         function getToken() {
             let auth = Cookies.get('Authorization');
 

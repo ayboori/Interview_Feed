@@ -42,13 +42,16 @@ public class MypageController {
 
     // UserRequestDto : 수정할 값 받아옴
     // HttpServletRequest : 토큰 받아옴
+
+    @GetMapping("/mypage1")
+    public String update(){
+        return "mypageUpdate";
+    }
+
     @ResponseBody
-    @PutMapping("/my-page") // url 형식 : /mypage?id=3
-    public UserResponseDto updateMypage(@RequestParam Long id, @RequestBody UserRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        if (requestDto.getPassword() != null){ // password 값이 들어오면
-//            redirectToPassword();
-//        }
-        return mypageService.updateMypage(id, requestDto, userDetails.getUser());
+    @PutMapping("/my-page")
+    public UserResponseDto updateMypage(@RequestBody UserRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return mypageService.updateMypage(requestDto, userDetails.getUser());
     }
 
     // 수정할 정보에 password 포함되어 있을 시

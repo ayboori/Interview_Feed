@@ -37,23 +37,22 @@ public class MypageService {
     }
 
     @Transactional
-    public UserResponseDto updateMypage(Long id, UserRequestDto requestDto, User user) {
+    public UserResponseDto updateMypage(UserRequestDto requestDto, User user) {
         if(user == null) {
             throw new IllegalArgumentException("로그인을 먼저 해 주세요.");
         }
 
-        User user1 = userRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 글이 존재하지 않습니다.")
+        User user1 = userRepository.findById(user.getId()).orElseThrow(
+                ()-> new NullPointerException("해당 사용자가 존재하지 않습니다.")
         ); // DB에 있는 user을 가져와서 그 값을 수정해야 한다!
 
-        if (user.getId() == id) { // 로그인 사용자 == 작성자
             // user 정보 수정
             user1.update(requestDto);
 
             return new UserResponseDto(user1); // 반환 객체에 변경 완료 객체 담아서 return
-        } else {
-            throw new IllegalArgumentException("수정 권한이 없는 사용자입니다.");
-        }
+//        } else {
+//            throw new IllegalArgumentException("수정 권한이 없는 사용자입니다.");
+//        }
     }
 
     @Transactional
