@@ -23,12 +23,14 @@ public class MailController {
         userService.checkEmail(email);
     }
 
+    // 메일 전송
     @PostMapping("/email/send-email")
     public String sendEmail(@RequestBody String email) throws MessagingException, UnsupportedEncodingException {
         String authcode = mailService.sendEmail(email);
         return authcode;
     }
 
+    // 메일 인증코드 확인
     @PostMapping("/email/confirm-authcode")
     public void confirmAuthcode(@RequestBody String input) {
         mailService.confirmAuthcode(input);
