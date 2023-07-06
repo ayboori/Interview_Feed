@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/write.css">
+    <title>게시판 글쓰기</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const auth = getToken();
+
+            if (auth !== undefined && auth !== '') {
+                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                    jqXHR.setRequestHeader('Authorization', auth);
+                });
+            } else {
+                window.location.href = host + '/api/user/login-page';
+                return;
+            }
+        })
+
+        function createPost() {
+
+            // event.preventDefault();
+
+            var title = document.getElementById('titleInput').value;
+            var content = document.getElementById('contentInput').value;
+
+            $.ajax({
+                type: "POST",
+                url: `/api/post`,
+                contentType: "application/json",
+                data: JSON.stringify({title: title, content: content}),
+            }).done(function () {
+                alert("작성 완료")
+            }).fail(function () {
+                alert("작성 실패")
+            });
+        }
+
+        function getToken() {
+            let auth = Cookies.get('Authorization');
+
+            if (auth === undefined) {
+                return '';
+            }
+
+            return auth;
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div class="homebox">
+        <div>
+            <a href="index.html" class="logo"></a>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <div class="menubox">
+        <ul>
+            <li><a href="login.html">메인화면</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <input type="text" id="titleInput" placeholder="제목을 입력해주세요." required>
+    <hr>
+    <input type="text" id="contentInput" placeholder="내용을 입력해주세요." class="text" required>
+    <div class="button">
+        <button type="submit" onclick="createPost()">글쓰기</button>
+        <button type="reset">취소</button>
+    </div>
+</main>
+</body>
+</html>
