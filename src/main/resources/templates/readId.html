@@ -1,0 +1,109 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="ko">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Mypage</title>-->
+<!--  <link href="../static/css/mypageStyle.css" rel="stylesheet"/>-->
+<!--  <script src="https://code.jquery.com/jquery-3.7.0.min.js"-->
+<!--          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>-->
+<!--  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>-->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>-->
+<!--  <script>-->
+<!--    $(document).ready(function () {-->
+<!--      const auth = getToken();-->
+
+<!--      // 헤더에서 요청 가져오기-->
+<!--      if (auth !== undefined && auth !== '') {-->
+<!--        $.ajaxPrefilter(function (options, originalOptions, jqXHR) {-->
+<!--          jqXHR.setRequestHeader('Authorization', auth);-->
+<!--        });-->
+
+<!--        $.ajax({-->
+<!--          type: 'GET',-->
+<!--          url: `/api/posts/{id}`,-->
+<!--          contentType: 'application/json',-->
+<!--        })-->
+<!--                .done(function (res) {-->
+<!--                  const title = res.title;-->
+<!--                  const content = res.content;-->
+<!--                  const nickname = res.nickname;-->
+<!--                  const modified_at = res.modified_at;-->
+
+<!--                  if (!nickname) {-->
+<!--                    window.location.href = '/api/login-page';-->
+<!--                    return;-->
+<!--                  }-->
+<!--                  console.log(res);-->
+
+<!--                  $('#title').text(title);-->
+<!--                  $('#content').text(content);-->
+<!--                  $('#nickname').text(nickname);-->
+<!--                  $('#modified_at').text(modified_at);-->
+
+<!--                })-->
+<!--                .fail(function (jqXHR, textStatus) {-->
+<!--                  logout();-->
+<!--                });-->
+
+<!--      } else {-->
+<!--        // window.location.href = host + '/api/login-page';-->
+<!--        return;-->
+<!--      }-->
+<!--    })-->
+<!--    function getToken() {-->
+<!--      let auth = Cookies.get('Authorization');-->
+
+<!--      if (auth === undefined) {-->
+<!--        return '';-->
+<!--      }-->
+<!--      return auth;-->
+<!--    }-->
+<!--  </script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<HEADER>-->
+<!--  &lt;!&ndash; 공통된 헤더 구현한다면 여기에 삽입 &ndash;&gt;-->
+<!--</HEADER>-->
+
+<!--<main>-->
+<!--  <section class="sc-fTxOGA gxcKhf">-->
+<!--    &lt;!&ndash; <div class="thumbnail-area"><img-->
+<!--            src="https://velog.velcdn.com/images/ayoung3052/profile/f01e7f72-3933-457b-bc16-ba4d67068196/image.jpg"-->
+<!--            alt="profile">-->
+<!--        <button color="teal" class="sc-jrQzAO iGivNa">이미지 업로드</button>-->
+<!--        <button color="transparent" class="sc-jrQzAO cFunXL">이미지 제거</button>-->
+<!--    </div> &ndash;&gt;-->
+<!--    <div class="info-area"><h2><span id="title"></span></h2> &lt;!&ndash;nickname 읽어오기&ndash;&gt;-->
+<!--      <p><span id="one_liner"></span></p> &lt;!&ndash;한줄소개&ndash;&gt;-->
+<!--    </div>-->
+<!--  </section>-->
+<!--  <section class="sc-dcgwPl kPCmWH">-->
+<!--    <div class="wrapper">-->
+<!--      <div class="title-wrapper"><h3>사용자 아이디</h3></div>-->
+<!--      <div class="contents"><span id="content"></span></div> &lt;!&ndash; username 읽어오기 &ndash;&gt;-->
+<!--    </div>-->
+<!--    <div class="description">회원 로그인 시 입력하는 아이디 입니다.</div>-->
+<!--    </div>-->
+<!--  </section>-->
+<!--  <section class="sc-dcgwPl kPCmWH">-->
+<!--    <div class="wrapper">-->
+<!--      <div class="title-wrapper"><h3>비밀번호</h3></div>-->
+<!--      <div class="contents"><span id="nickname"></span></div>-->
+<!--      <div class="description">회원 로그인 시 사용하는 비밀번호 입니다. 변경 시 현재 비밀번호를 다시 입력받습니다.</div>-->
+<!--    </div>-->
+<!--  </section>-->
+<!--  <section class="sc-dcgwPl kPCmWH">-->
+<!--    <div class="wrapper">-->
+<!--      <div class="title-wrapper"><h3>이메일 주소</h3></div>-->
+<!--      <div class="contents"><span id="modified_at"></span></div>-->
+<!--      <div class="description">회원 인증 또는 시스템에서 발송하는 이메일을 수신하는 주소입니다.</div>-->
+<!--    </div>-->
+<!--  </section>-->
+<!--  <div class="edit-wrapper">-->
+<!--    <button class="sc-Galmp jRMKwK">수정</button>-->
+<!--  </div>-->
+<!--</main>-->
+<!--</body>-->
+<!--</html>-->

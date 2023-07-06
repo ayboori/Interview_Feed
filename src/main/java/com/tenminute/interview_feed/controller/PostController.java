@@ -8,17 +8,23 @@ import com.tenminute.interview_feed.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class PostController {
 
     private final PostService postService;
-    //
+
+    // 게시글 작성 html주소
+    @GetMapping("/post")
+    public String createPost() {
+        return "/write";
+    }
 
     // 게시글 작성
     @PostMapping("/post")
@@ -31,6 +37,12 @@ public class PostController {
     public List<PostResponseDto> getPosts() {
         return postService.getPosts();
     }
+
+    // 특정 게시글 조회 html주소
+//    @GetMapping("/posts/read/{id}")
+//    public String readPost() {
+//        return "/readId";
+//    }
 
     // 특정 게시글 조회
     @GetMapping("/posts/{id}")
