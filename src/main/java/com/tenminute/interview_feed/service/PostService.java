@@ -54,34 +54,31 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
-    private List<Tag> createTagListFromRequest(PostRequestDto requestDto) {
-        List<Tag> tagList = new ArrayList<>();
-        for (String tagName : requestDto.getTagList()) {
-                Tag tag=null;
-                //기존 해시태그가 있다면 기존거로 진행, 없으면 생성.
-                if(!tagRepository.existsByNameIgnoreCaseAllIgnoreCase(tagName)){
-                    tag = new Tag(tagName);
-                    //DB에 tag 저장
-                    tagRepository.save(tag);
-                } else {
-                    tag = tagRepository.findByNameIgnoreCase(tagName);
-                }
-                tagList.add(tag);
-        }
-        return tagList;
-    }
 
 
     // 전체 게시글 조회
     @Transactional
     public List<PostResponseDto> getPosts() {
-        List<Post> posts = postRepository.findAll();
+        List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
+
+
         List<PostResponseDto> postResponseDto = new ArrayList<>();
 
-        for(Post post : posts) {
+        for(Post post : postList) {
             postResponseDto.add(new PostResponseDto(post));
         }
 
+        return postResponseDto;
+    }
+
+    //태그로 포스트 조회하기
+    public List<PostResponseDto> getPostsByTags(List<String> strings) {
+        List<Post> postList = postRepository.findAllByTagPostTableList_Tag_NameInOrderByCreatedAtDesc(strings);
+
+        List<PostResponseDto> postResponseDto = new ArrayList<>();
+        for(Post post : postList) {
+            postResponseDto.add(new PostResponseDto(post));
+        }
         return postResponseDto;
     }
 
@@ -158,6 +155,23 @@ public class PostService {
         return null;
     }
 
+
+    private List<Tag> createTagListFromRequest(PostRequestDto requestDto) {
+        List<Tag> tagList = new ArrayList<>();
+        for (String tagName : requestDto.getTagList()) {
+            Tag tag=null;
+            //기존 해시태그가 있다면 기존거로 진행, 없으면 생성.
+            if(!tagRepository.existsByNameIgnoreCaseAllIgnoreCase(tagName)){
+                tag = new Tag(tagName);
+                //DB에 tag 저장
+                tagRepository.save(tag);
+            } else {
+                tag = tagRepository.findByNameIgnoreCase(tagName);
+            }
+            tagList.add(tag);
+        }
+        return tagList;
+    }
 
     private List<TagPostTable> createTagPostTableList(Post post, List<Tag> tagList)  {
         List<TagPostTable> tagPostTableList = new ArrayList<>();

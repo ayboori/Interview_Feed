@@ -3,7 +3,6 @@ package com.tenminute.interview_feed.dto;
 import com.tenminute.interview_feed.entity.Post;
 import com.tenminute.interview_feed.entity.Reply;
 import com.tenminute.interview_feed.entity.TagPostTable;
-import com.tenminute.interview_feed.entity.Timestamped;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -28,8 +27,8 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.nickname = post.getNickname();
-        this.created_at = post.getCreate_at();
-        this.modified_at = post.getModified_at();
+        this.created_at = post.getCreatedAt();
+        this.modified_at = post.getModifiedAt();
         this.like_count = post.getLike_count();
 
         for (Reply reply : post.getReplyList()) {
