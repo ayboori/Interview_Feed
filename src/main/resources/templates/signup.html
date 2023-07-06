@@ -6,37 +6,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <meta charset="UTF-8">
     <title>회원가입 페이지</title>
-    <script type="text/javascript">
-        // 비밀번호 정규식
-        let regexp_pw = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{8,15}$')
-
-        // 이메일 정규식
-        let regexp_email = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$')
-
-        function check_password() { // 비밀번호 일치 및 정규식 체크
-            var p1 = document.getElementById('pw1').value;
-            var p2 = document.getElementById('pw2').value;
-
-            if (!regexp_pw.test(p1)) {
-                document.getElementById('check_regexp_pw').innerHTML = '8~15자 영문 대소문자, 숫자, 특수문자(!@#$%^*+=-)를 사용하세요.';
-                document.getElementById('check_regexp_pw').style.color = 'red';
-            } else {
-                document.getElementById('check_regexp_pw').innerHTML = '사용가능한 비밀번호 입니다.';
-                document.getElementById('check_regexp_pw').style.color = 'blue';
-            }
-
-            if (p1 != p2) {
-                document.getElementById('check_accord_pw').innerHTML = '비밀번호가 일치하지 않습니다.';
-                document.getElementById('check_accord_pw').style.color = 'red';
-            } else {
-                document.getElementById('check_accord_pw').innerHTML = '비밀번호가 일치합니다.'
-                document.getElementById('check_accord_pw').style.color = 'blue';
-            }
-        }
-    </script>
+    <script src="/js/signup.js"></script>
 </head>
 <body>
 <div id="signup-form">
@@ -44,19 +19,32 @@
 
     <form action="/api/signup" method="post">
         <div class="login-id-label">아이디</div>
-        <input type="text" name="username" placeholder="Username" class="login-input-box">
+        <input type="text" name="username" id="username" placeholder="Username" class="login-input-box"
+               onchange="check_username()">
+        <div class="login-check-label" id="check_regexp_username"><!--확인문구들어감--></div>
+        <button type="button" class="confirm-button" onclick="confirm_username()">아이디 중복 확인</button>
 
         <div class="login-id-label">비밀번호</div>
-        <input type="password" name="password" id="pw1" class="login-input-box" onchange="check_password()">
+        <input type="password" name="password" id="pw1" placeholder="password" class="login-input-box"
+               onchange="check_password()">
         <div class="login-check-label" id="check_regexp_pw"><!--확인문구들어감--></div>
 
         <div class="login-id-label">비밀번호 확인</div>
-        <input type="password" id="pw2" class="login-input-box" onchange="check_password()">
+        <input type="password" id="pw2" placeholder="password check" class="login-input-box"
+               onchange="check_password()"><br>
+        <input id="pw-check" type="checkbox" onclick="toggle_pw()" style="margin-top: 20px;">입력한 비밀번호 보기
         <div class="login-check-label" id="check_accord_pw"><!--확인문구들어감--></div>
 
         <div class="login-id-label">이메일</div>
-        <input type="text" name="email" placeholder="E-mail" class="login-input-box">
+        <input type="text" id="email" name="email" placeholder="E-mail" class="login-input-box"
+               onchange="check_email()">
         <div class="login-check-label" id="check_regexp_email"><!--확인문구들어감--></div>
+        <button type="button" class="confirm-button" onclick="confirm_email()">이메일 인증</button>
+
+        <div style="display:none" id="confirm_email_box">
+            <input type="text" id="confirm_email_code" placeholder="인증 코드 입력" class="login-input-box"><br>
+            <button type="button" class="confirm-button" onclick="confirm_authcode()">인증 코드 확인</button>
+        </div>
 
         <div class="login-id-label">닉네임</div>
         <input type="text" name="nickname" placeholder="nickname" class="login-input-box">

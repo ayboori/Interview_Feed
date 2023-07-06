@@ -236,10 +236,32 @@ button {
     display: none;
 }
 
+#signup-form {
+    width: 70%;
+    height: auto;
+    margin: 70px auto 141px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    /*gap: 96px;*/
+    padding: 56px 0 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+}
+.confirm-button {
+    border-width: 0;
+
+    margin: 20px 0 20px 0;
+    background-color: gray;
+
+    text-align: center;
+}
 
 #login-form {
-    width: 538px;
-    height: 710px;
+    width: 70%;
+    height: auto;
     margin: 70px auto 141px auto;
     display: flex;
     flex-direction: column;
@@ -252,9 +274,9 @@ button {
     background-color: #ffffff;
 }
 
+
 #login-title {
-    width: 303px;
-    height: 32px;
+    width: 80%;
     /*margin: 56px auto auto auto;*/
     flex-grow: 0;
     font-family: SpoqaHanSansNeo;
@@ -264,7 +286,7 @@ button {
     font-style: normal;
     line-height: 1;
     letter-spacing: -0.96px;
-    text-align: left;
+    text-align: center;
     color: #212529;
 }
 
@@ -301,7 +323,7 @@ button {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    /*margin: 8px 0 0;*/
+    margin: 35px 0 0;
     padding: 11px 12px;
     border-radius: 5px;
     border: solid 1px #212529;
@@ -343,6 +365,24 @@ button {
     color: #212529;
 }
 
+.login-check-label {
+    /*width: 44.1px;*/
+    /*height: 16px;*/
+    width: 382px;
+    padding-left: 11px;
+    margin-top: 20px;
+    /*margin: 0 337.9px 14px 11px;*/
+    font-family: NotoSansCJKKR;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: -0.8px;
+    text-align: left;
+    color: #212529;
+}
+
 #login-id-submit {
     border-width: 0;
     width: 393px;
@@ -353,7 +393,7 @@ button {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin: 40px 0 0;
+    margin: 40px 0 40px 0;
     padding: 11px 12px;
     border-radius: 5px;
     background-color: #15aabf;
