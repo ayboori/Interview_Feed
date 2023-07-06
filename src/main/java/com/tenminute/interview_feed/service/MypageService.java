@@ -27,15 +27,11 @@ public class MypageService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    public UserResponseDto showMypage(Long id, User user){
+    public UserResponseDto showMypage( User user){
 
        if(user == null){ // 로그인 안 된 상태
            throw new IllegalArgumentException("로그인을 먼저 해 주세요.");
            // 로그인 페이지로 redirect 해볼까 생각 중.. 로그인 구현 이후 수정!
-       }
-
-       if(user.getId() != id){ // 토근의 id =/= url로 받아온 id
-           throw new IllegalArgumentException("사용자 권한이 없습니다.");
        }
        return new UserResponseDto(user); // 반환 객체에 입력받은 user 객체 담아 리턴
     }
