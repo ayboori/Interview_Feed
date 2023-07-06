@@ -1,6 +1,7 @@
 package com.tenminute.interview_feed.entity;
 
 import com.tenminute.interview_feed.dto.PostRequestDto;
+import com.tenminute.interview_feed.dto.SignupRequestDto;
 import com.tenminute.interview_feed.dto.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,16 +35,15 @@ public class User {
     @Column
     private String one_liner;
 
-    public User(UserRequestDto userRequestDto, String password){
-        this.username = userRequestDto.getUsername();
+    public User(SignupRequestDto signupRequestDto, String password){
+        this.username = signupRequestDto.getUsername();
         this.password = password;
 
-        this.email = userRequestDto.getEmail();
-        this.nickname = userRequestDto.getNickname();
+        this.email = signupRequestDto.getEmail();
+        this.nickname = signupRequestDto.getNickname();
 
         this.one_liner = "자기소개를 입력해주세요.";
     }
-
 
     // User 받기?
     public User(UserRequestDto userRequestDto){
