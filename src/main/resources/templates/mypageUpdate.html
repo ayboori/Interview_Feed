@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mypage</title>
+    <link href="../static/css/mypageStyle.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const auth = getToken();
+
+            if (auth !== undefined && auth !== '') {
+                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                    jqXHR.setRequestHeader('Authorization', auth);
+                    $('#username').text(username);
+                });
+            } else {
+                window.location.href = host + '/api/login-page';
+                return;
+            }
+        })
+        function getToken() {
+            let auth = Cookies.get('Authorization');
+
+            if (auth === undefined) {
+                return '';
+            }
+            return auth;
+        }
+    </script>
+</head>
+<body>
+<HEADER>
+    <!-- 공통된 헤더 구현한다면 여기에 삽입 -->
+</HEADER>
+
+<main>
+    <section class="sc-fTxOGA gxcKhf">
+        <!-- <div class="thumbnail-area"><img
+                src="https://velog.velcdn.com/images/ayoung3052/profile/f01e7f72-3933-457b-bc16-ba4d67068196/image.jpg"
+                alt="profile">
+            <button color="teal" class="sc-jrQzAO iGivNa">이미지 업로드</button>
+            <button color="transparent" class="sc-jrQzAO cFunXL">이미지 제거</button>
+        </div> -->
+        <div class="info-area"><h2>ayboori</h2> <!--nickname 읽어오기-->
+            <p>프로 개발자가 되기 위해 뚜벅뚜벅.. 뚜벅초</p> <!--한줄소개-->
+        </div>
+    </section>
+    <section class="sc-dcgwPl kPCmWH">
+        <div class="wrapper">
+            <div class="title-wrapper"><h3>사용자 아이디</h3></div>
+            <input placeholder="사용자 아이디" class="sc-fWCJzd eCzkuI" value="아이디">
+        </div>
+        <div class="description">회원 로그인 시 입력하는 아이디 입니다.</div>
+        </div>
+    </section>
+    <section class="sc-dcgwPl kPCmWH">
+        <div class="wrapper">
+            <div class="title-wrapper"><h3>비밀번호</h3></div>
+            <input placeholder="비밀번호" class="sc-fWCJzd eCzkuI" value="비밀번호">
+            <div class="description">회원 로그인 시 사용하는 비밀번호 입니다. 변경 시 현재 비밀번호를 다시 입력받습니다.</div>
+        </div>
+    </section>
+    <section class="sc-dcgwPl kPCmWH">
+        <div class="wrapper">
+            <div class="title-wrapper"><h3>이메일 주소</h3></div>
+            <input placeholder="이메일" class="sc-fWCJzd eCzkuI" value="이메일">
+            <div class="description">회원 인증 또는 시스템에서 발송하는 이메일을 수신하는 주소입니다.</div>
+        </div>
+    </section>
+    <div class="edit-wrapper">
+        <button class="sc-Galmp jRMKwK">수정</button>
+    </div>
+
+</main>
+</body>
+</html>

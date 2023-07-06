@@ -27,37 +27,32 @@ public class MypageService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    public UserResponseDto showMypage(Long id, User user){
+    public UserResponseDto showMypage( User user){
 
        if(user == null){ // 로그인 안 된 상태
            throw new IllegalArgumentException("로그인을 먼저 해 주세요.");
            // 로그인 페이지로 redirect 해볼까 생각 중.. 로그인 구현 이후 수정!
        }
-
-       if(user.getId() != id){ // 토근의 id =/= url로 받아온 id
-           throw new IllegalArgumentException("사용자 권한이 없습니다.");
-       }
        return new UserResponseDto(user); // 반환 객체에 입력받은 user 객체 담아 리턴
     }
 
     @Transactional
-    public UserResponseDto updateMypage(Long id, UserRequestDto requestDto, User user) {
+    public UserResponseDto updateMypage(UserRequestDto requestDto, User user) {
         if(user == null) {
             throw new IllegalArgumentException("로그인을 먼저 해 주세요.");
         }
 
-        User user1 = userRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 글이 존재하지 않습니다.")
+        User user1 = userRepository.findById(user.getId()).orElseThrow(
+                ()-> new NullPointerException("해당 사용자가 존재하지 않습니다.")
         ); // DB에 있는 user을 가져와서 그 값을 수정해야 한다!
 
-        if (user.getId() == id) { // 로그인 사용자 == 작성자
             // user 정보 수정
             user1.update(requestDto);
 
             return new UserResponseDto(user1); // 반환 객체에 변경 완료 객체 담아서 return
-        } else {
-            throw new IllegalArgumentException("수정 권한이 없는 사용자입니다.");
-        }
+//        } else {
+//            throw new IllegalArgumentException("수정 권한이 없는 사용자입니다.");
+//        }
     }
 
     @Transactional
