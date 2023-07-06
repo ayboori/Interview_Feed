@@ -153,3 +153,14 @@ function confirm_authcode() {
             alert('errorThrown');
         });
 }
+
+function toggle_pw() {
+
+    if($("#pw-check").is(":checked")){
+        $('#pw1').prop("type", "text");
+        $('#pw2').prop("type", "text");
+    }else{
+        $('#pw1').prop("type", "password");
+        $('#pw2').prop("type", "password");
+    }
+}
