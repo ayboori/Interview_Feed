@@ -59,4 +59,12 @@ public class UserController {
 
         return new UserInfoDto(username);
     }
+
+    // username 중복 체크
+    @PostMapping("/signup/confirm-username/{username}")
+    @ResponseBody
+    public void checkUsername(@PathVariable("username") String username) {
+        userService.checkUsername(username);
+    }
+
 }

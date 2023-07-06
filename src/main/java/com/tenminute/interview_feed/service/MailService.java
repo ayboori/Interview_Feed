@@ -65,4 +65,10 @@ public class MailService {
 
         return templateEngine.process("mail", context); // mail.html 호출
     }
+
+    public void confirmAuthcode(String input) {
+        if(!authcode.equals(input)) {
+            throw new IllegalArgumentException("인증코드가 일치하지 않습니다.");
+        }
+    }
 }
