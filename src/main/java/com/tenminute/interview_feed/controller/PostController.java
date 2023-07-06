@@ -18,7 +18,22 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    //
+
+    // 메인 페이지. 전체 게시글 조회
+    @GetMapping("/posts")
+    public List<PostResponseDto> getPosts() {
+        return postService.getPosts();
+    }
+
+
+    @PostMapping("/posts/tag")
+    public List<PostResponseDto> getPostsByTags(@RequestBody List<String> strings){
+        if(strings.size()>1) {
+            return postService.getPostsByMultiTags(strings);
+        } else {
+            return postService.getPostsBySingleTag(strings);
+        }
+    }
 
     // 게시글 작성
     @PostMapping("/post")
@@ -26,11 +41,8 @@ public class PostController {
         return postService.createPost(requestDto,request);
     }
 
-    // 전체 게시글 조회
-    @GetMapping("/posts")
-    public List<PostResponseDto> getPosts() {
-        return postService.getPosts();
-    }
+
+
 
     // 특정 게시글 조회
     @GetMapping("/posts/{id}")
